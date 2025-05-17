@@ -36,5 +36,17 @@ namespace TaskAndTeamManagement.Infrastructure.Repository.Auth
             }
             return user;
         }
+
+        public async Task UpdateUserTokenAsync(int userId, string token)
+        {
+            var user = await _dbContext.Users.FindAsync(userId);
+            if (user == null)
+            {
+                throw new InvalidOperationException("User not found.");
+            }
+            user.Token = token;
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace TaskAndTeamManagement.Domain.IRepository.Auth
     {
         public Task<User> UserRegistrationAsync(User user);
         Task<User> UserLoginAsync(string email);
+        Task UpdateUserTokenAsync(int userId, string token);
     }
 }

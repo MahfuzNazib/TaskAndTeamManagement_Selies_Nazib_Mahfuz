@@ -121,7 +121,9 @@ namespace TaskAndTeamManagement.Application.Service.Authentication
                 };
             }
             string token = GenerateJwtToken(user);
-            var loginResponse = MapUserToLoginResponse(user, token: "");
+            user.Token = token;
+            await _authRepository.UpdateUserTokenAsync(user.Id, token);
+            var loginResponse = MapUserToLoginResponse(user, token);
             return new ApiResponse<LoginResponse?>
             {
                 Status = true,
