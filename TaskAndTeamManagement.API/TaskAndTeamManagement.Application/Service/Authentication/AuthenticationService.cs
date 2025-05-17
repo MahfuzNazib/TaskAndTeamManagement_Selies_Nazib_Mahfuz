@@ -154,15 +154,16 @@ namespace TaskAndTeamManagement.Application.Service.Authentication
             var secretKey = jwtSettings["SecretKey"];
             var issuer = jwtSettings["Issuer"];
             var audience = jwtSettings["Audience"];
-            var expires = DateTime.UtcNow.AddHours(1);
+            var durationInMinutes = Convert.ToDouble(jwtSettings["DurationInMinutes"] ?? "60");
+            var expires = DateTime.UtcNow.AddMinutes(durationInMinutes);
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.FullName),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
-            };
+        new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+        new Claim(ClaimTypes.Name, user.FullName),
+        new Claim(ClaimTypes.Role, user.Role.ToString())
+    };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
