@@ -21,7 +21,7 @@ namespace TaskAndTeamManagement.API
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerWithJwt();
 
             #region Dependency Injection Register
             builder.Services.AddDatabaseConnection(builder.Configuration);
