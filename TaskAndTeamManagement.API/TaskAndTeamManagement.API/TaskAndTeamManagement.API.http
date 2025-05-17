@@ -1,0 +1,6 @@
+@TaskAndTeamManagement.API_HostAddress = http://localhost:5140
+
+GET {{TaskAndTeamManagement.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
