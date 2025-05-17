@@ -37,9 +37,39 @@ namespace TaskAndTeamManagement.Infrastructure.Repository.UserManagement
         {
             return await _context.Users.FindAsync(userId);
         }
+
         //public async Task<IEnumerable<User>> GetAllUsersAsync()
         //{
         //    return await _context.Users.ToListAsync();
         //}
+
+
+        public async Task<(IEnumerable<User> Users, int TotalCount)> GetUsersAsync(int pageNumber, int pageSize, string search, string sortBy, bool sortAsc)
+        {
+            var query = _context.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(u =>
+                    u.FullName.Contains(search) ||
+                    u.Email.Contains(search));
+            }
+
+            int totalCount = await query.CountAsync();
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                query = sortAsc
+                    ? query.OrderBy(u => EF.Property<object>(u, sortBy))
+                    : query.OrderByDescending(u => EF.Property<object>(u, sortBy));
+            }
+
+            var users = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (users, totalCount);
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace TaskAndTeamManagement.Domain.IRepository.UserManagement
         Task<bool> DeleteUserAsync(int userId);
         Task<User> GetUserByIdAsync(int userId);
         //Task<IEnumerable<User>> GetAllUsersAsync();
+        Task<(IEnumerable<User> Users, int TotalCount)> GetUsersAsync(int pageNumber, int pageSize, string search, string sortBy, bool sortAsc);
     }
 }

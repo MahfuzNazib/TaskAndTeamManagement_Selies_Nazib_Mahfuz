@@ -1,4 +1,6 @@
-﻿using TaskAndTeamManagement.Application.Dtos.UserManagement;
+﻿using TaskAndTeamManagement.Application.Dtos.Common;
+using TaskAndTeamManagement.Application.Dtos.UserManagement;
+using TaskAndTeamManagement.Application.Helpers;
 using TaskAndTeamManagement.Application.IService.UserManagement;
 using TaskAndTeamManagement.Domain.Entities;
 using TaskAndTeamManagement.Domain.IRepository.UserManagement;
@@ -14,7 +16,85 @@ namespace TaskAndTeamManagement.Application.Service.UserManagement
             _userManagementRepository = userManagementRepository;
         }
 
-        public async Task<UserDto> AddUserAsync(UserDto userDto)
+        //public async Task<UserDto> AddUserAsync(UserDto userDto)
+        //{
+        //    var user = new User
+        //    {
+        //        FullName = userDto.FullName,
+        //        Email = userDto.Email,
+        //        Role = userDto.Role
+        //    };
+        //    var addedUser = await _userManagementRepository.AddUserAsync(user);
+
+        //    return new UserDto
+        //    {
+        //        FullName = addedUser.FullName,
+        //        Email = addedUser.Email,
+        //        Role = addedUser.Role
+        //    };
+        //}
+
+        //public async Task<UserDto> UpdateUserAsync(UserDto userDto)
+        //{
+        //    var user = new User
+        //    {
+        //        Id = userDto.Id,
+        //        FullName = userDto.FullName,
+        //        Email = userDto.Email,
+        //        Role = userDto.Role
+        //    };
+        //    var updatedUser = await _userManagementRepository.UpdateUserAsync(user);
+
+        //    return new UserDto
+        //    {
+        //        Id = updatedUser.Id,
+        //        FullName = updatedUser.FullName,
+        //        Email = updatedUser.Email,
+        //        Role = updatedUser.Role
+        //    };
+        //}
+
+        //public async Task<bool> DeleteUserAsync(int userId)
+        //{
+        //    return await _userManagementRepository.DeleteUserAsync(userId);
+        //}
+
+        //public async Task<UserDto> GetUserByIdAsync(int userId)
+        //{
+        //    var user = await _userManagementRepository.GetUserByIdAsync(userId);
+        //    if (user == null) return null;
+        //    return new UserDto
+        //    {
+        //        Id = user.Id,
+        //        FullName = user.FullName,
+        //        Email = user.Email,
+        //        Role = user.Role
+        //    };
+        //}
+
+        //public async Task<(IEnumerable<UserDto> Users, int TotalCount)> GetUsersAsync(PaginationRequestDto paginationRequestDto)
+        //{
+        //    var result = await _userManagementRepository.GetUsersAsync(
+        //        paginationRequestDto.pageNumber,
+        //        paginationRequestDto.pageSize,
+        //        paginationRequestDto.search,
+        //        paginationRequestDto.sortBy,
+        //        paginationRequestDto.sortAsc
+        //    );
+
+        //    var userDtos = result.Users.Select(user => new UserDto
+        //    {
+        //        Id = user.Id,
+        //        FullName = user.FullName,
+        //        Email = user.Email,
+        //        Role = user.Role
+        //    });
+
+        //    return (userDtos, result.TotalCount);
+        //}
+
+
+        public async Task<ApiResponse<UserDto>> AddUserAsync(UserDto userDto)
         {
             var user = new User
             {
@@ -23,16 +103,24 @@ namespace TaskAndTeamManagement.Application.Service.UserManagement
                 Role = userDto.Role
             };
             var addedUser = await _userManagementRepository.AddUserAsync(user);
-            
-            return new UserDto
+
+            var resultDto = new UserDto
             {
+                Id = addedUser.Id,
                 FullName = addedUser.FullName,
                 Email = addedUser.Email,
                 Role = addedUser.Role
             };
+
+            return new ApiResponse<UserDto>
+            {
+                Status = true,
+                Message = "User added successfully.",
+                Values = resultDto
+            };
         }
 
-        public async Task<UserDto> UpdateUserAsync(UserDto userDto)
+        public async Task<ApiResponse<UserDto>> UpdateUserAsync(UserDto userDto)
         {
             var user = new User
             {
@@ -43,31 +131,93 @@ namespace TaskAndTeamManagement.Application.Service.UserManagement
             };
             var updatedUser = await _userManagementRepository.UpdateUserAsync(user);
 
-            return new UserDto
+            var resultDto = new UserDto
             {
                 Id = updatedUser.Id,
                 FullName = updatedUser.FullName,
                 Email = updatedUser.Email,
                 Role = updatedUser.Role
             };
+
+            return new ApiResponse<UserDto>
+            {
+                Status = true,
+                Message = "User updated successfully.",
+                Values = resultDto
+            };
         }
 
-        public async Task<bool> DeleteUserAsync(int userId)
+        public async Task<ApiResponse<bool>> DeleteUserAsync(int userId)
         {
-            return await _userManagementRepository.DeleteUserAsync(userId);
+            var result = await _userManagementRepository.DeleteUserAsync(userId);
+            return new ApiResponse<bool>
+            {
+                Status = result,
+                Message = result ? "User deleted successfully." : "User not found.",
+                Values = result
+            };
         }
 
-        public async Task<UserDto> GetUserByIdAsync(int userId)
+        public async Task<ApiResponse<UserDto>> GetUserByIdAsync(int userId)
         {
             var user = await _userManagementRepository.GetUserByIdAsync(userId);
-            if (user == null) return null;
-            return new UserDto
+            if (user == null)
+            {
+                return new ApiResponse<UserDto>
+                {
+                    Status = false,
+                    Message = "User not found.",
+                    Values = null
+                };
+            }
+
+            var resultDto = new UserDto
             {
                 Id = user.Id,
                 FullName = user.FullName,
                 Email = user.Email,
                 Role = user.Role
             };
+
+            return new ApiResponse<UserDto>
+            {
+                Status = true,
+                Message = "User retrieved successfully.",
+                Values = resultDto
+            };
         }
+
+        public async Task<ApiResponse<(IEnumerable<UserDto> Users, int TotalCount)>> GetUsersAsync(PaginationRequestDto paginationRequestDto)
+        {
+            var result = await _userManagementRepository.GetUsersAsync(
+                paginationRequestDto.pageNumber,
+                paginationRequestDto.pageSize,
+                paginationRequestDto.search,
+                paginationRequestDto.sortBy,
+                paginationRequestDto.sortAsc
+            );
+
+            var userDtos = result.Users.Select(user => new UserDto
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                Role = user.Role
+            });
+
+            return new ApiResponse<(IEnumerable<UserDto> Users, int TotalCount)>
+            {
+                Status = true,
+                Message = "Users retrieved successfully.",
+                Values = (userDtos, result.TotalCount),
+                PaginationSummary = new PaginationSummary
+                {
+                    Page = paginationRequestDto.pageNumber,
+                    PerPage = paginationRequestDto.pageSize,
+                    TotalCount = result.TotalCount
+                }
+            };
+        }
+
     }
 }

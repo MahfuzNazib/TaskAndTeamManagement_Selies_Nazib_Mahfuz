@@ -35,12 +35,12 @@ namespace TaskAndTeamManagement.API.Controllers
         [HttpDelete("delete/{userId}")]
         public async Task<IActionResult> DeleteUser(int userId)
         {
-            var result = await _userManagementService.DeleteUserAsync(userId);
-            if (result)
+            var response = await _userManagementService.DeleteUserAsync(userId);
+            if (response.Status && response.Values == true)
             {
                 return Ok(new { message = "User deleted successfully." });
             }
-            return NotFound(new { message = "User not found." });
+            return NotFound(new { message = response.Message ?? "User not found." });
         }
 
         [HttpGet("get/{userId}")]

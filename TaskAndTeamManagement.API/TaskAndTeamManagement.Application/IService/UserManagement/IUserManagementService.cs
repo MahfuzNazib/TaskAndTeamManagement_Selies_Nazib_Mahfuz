@@ -1,13 +1,15 @@
-﻿using TaskAndTeamManagement.Application.Dtos.UserManagement;
+﻿using TaskAndTeamManagement.Application.Dtos.Common;
+using TaskAndTeamManagement.Application.Dtos.UserManagement;
+using TaskAndTeamManagement.Application.Helpers;
 
 namespace TaskAndTeamManagement.Application.IService.UserManagement
 {
     public interface IUserManagementService
     {
-        Task<UserDto> AddUserAsync(UserDto userDto);
-        Task<UserDto> UpdateUserAsync(UserDto userDto);
-        Task<bool> DeleteUserAsync(int userId);
-        Task<UserDto> GetUserByIdAsync(int userId);
-        //Task<IEnumerable<UserDto>> GetAllUsersAsync();
+        Task<ApiResponse<UserDto>> AddUserAsync(UserDto userDto);
+        Task<ApiResponse<UserDto>> UpdateUserAsync(UserDto userDto);
+        Task<ApiResponse<bool>> DeleteUserAsync(int userId);
+        Task<ApiResponse<UserDto>> GetUserByIdAsync(int userId);
+        Task<ApiResponse<(IEnumerable<UserDto> Users, int TotalCount)>> GetUsersAsync(PaginationRequestDto paginationRequestDto);
     }
 }
