@@ -15,8 +15,4 @@
     <ProjectReference Include="..\TaskAndTeamManagement.Domain\TaskAndTeamManagement.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IService\User\" />
-  </ItemGroup>
-
 </Project>
