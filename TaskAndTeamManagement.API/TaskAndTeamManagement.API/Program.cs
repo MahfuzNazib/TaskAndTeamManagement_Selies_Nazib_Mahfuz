@@ -17,6 +17,7 @@ namespace TaskAndTeamManagement.API
 
             #region Dependency Injection Register
             builder.Services.AddDatabaseConnection(builder.Configuration);
+            builder.Services.AddAuthenticationService();
 
             #endregion
 
