@@ -1,4 +1,5 @@
 
+using Serilog;
 using TaskAndTeamManagement.API.AppExceptionHandler;
 using TaskAndTeamManagement.API.Extensions;
 
@@ -8,7 +9,14 @@ namespace TaskAndTeamManagement.API
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+                .Enrich.FromLogContext()
+                .CreateLogger();
+
             var builder = WebApplication.CreateBuilder(args);
+            builder.Host.UseSerilog();
 
 
             builder.Services.AddControllers();
