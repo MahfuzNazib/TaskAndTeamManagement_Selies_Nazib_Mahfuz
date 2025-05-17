@@ -32,6 +32,8 @@ namespace TaskAndTeamManagement.Infrastructure.DatabaseContext
                 .WithMany(team => team.UserTasks)
                 .HasForeignKey(t => t.TeamId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            SeedData.SeedUsers(modelBuilder);
         }
     }
 }

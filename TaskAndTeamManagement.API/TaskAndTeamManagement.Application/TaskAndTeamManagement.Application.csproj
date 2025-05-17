@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IService\" />
-    <Folder Include="Service\" />
+    <Folder Include="IService\User\" />
+    <Folder Include="Service\Authentication\" />
   </ItemGroup>
 
 </Project>
