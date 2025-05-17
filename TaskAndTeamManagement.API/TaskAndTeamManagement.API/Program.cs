@@ -1,4 +1,5 @@
 
+using TaskAndTeamManagement.API.AppExceptionHandler;
 using TaskAndTeamManagement.API.Extensions;
 
 namespace TaskAndTeamManagement.API
@@ -16,6 +17,7 @@ namespace TaskAndTeamManagement.API
 
             #region Dependency Injection Register
             builder.Services.AddDatabaseConnection(builder.Configuration);
+
             #endregion
 
             var app = builder.Build();
@@ -26,11 +28,9 @@ namespace TaskAndTeamManagement.API
                 app.UseSwaggerUI();
             }
 
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
