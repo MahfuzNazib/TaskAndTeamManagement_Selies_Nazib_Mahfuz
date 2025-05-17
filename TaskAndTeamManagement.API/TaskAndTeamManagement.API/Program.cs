@@ -1,4 +1,6 @@
 
+using TaskAndTeamManagement.API.Extensions;
+
 namespace TaskAndTeamManagement.API
 {
     public class Program
@@ -7,16 +9,17 @@ namespace TaskAndTeamManagement.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            #region Dependency Injection Register
+            builder.Services.AddDatabaseConnection(builder.Configuration);
+            #endregion
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
