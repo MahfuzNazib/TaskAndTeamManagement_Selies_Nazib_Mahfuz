@@ -8,11 +8,17 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.16" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TaskAndTeamManagement.Domain\TaskAndTeamManagement.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\TeamManagement\Queries\" />
   </ItemGroup>
 
 </Project>

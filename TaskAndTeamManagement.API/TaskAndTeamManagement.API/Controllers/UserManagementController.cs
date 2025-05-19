@@ -7,7 +7,7 @@ using TaskAndTeamManagement.Application.IService.UserManagement;
 namespace TaskAndTeamManagement.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController] 
     [Authorize]
     public class UserManagementController : ControllerBase
     {
