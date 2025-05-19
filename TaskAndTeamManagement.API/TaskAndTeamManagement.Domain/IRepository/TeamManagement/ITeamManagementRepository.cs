@@ -5,5 +5,6 @@ namespace TaskAndTeamManagement.Domain.IRepository.TeamManagement
     public interface ITeamManagementRepository
     {
         Task<int> CreateTeamAsync(Team team);
+        Task<List<Team>> GetAllTeamAsync();
     }
 }

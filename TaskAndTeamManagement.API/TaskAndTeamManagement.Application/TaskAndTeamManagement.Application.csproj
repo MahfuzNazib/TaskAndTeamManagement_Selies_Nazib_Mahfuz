@@ -17,8 +17,4 @@
     <ProjectReference Include="..\TaskAndTeamManagement.Domain\TaskAndTeamManagement.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\TeamManagement\Queries\" />
-  </ItemGroup>
-
 </Project>

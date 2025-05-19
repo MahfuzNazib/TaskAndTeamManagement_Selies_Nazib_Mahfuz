@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskAndTeamManagement.Application.Dtos.TeamManagement;
 using TaskAndTeamManagement.Application.Features.TeamManagement.Commands;
+using TaskAndTeamManagement.Application.Features.TeamManagement.Queries;
 
 namespace TaskAndTeamManagement.API.Controllers
 {
@@ -30,6 +31,15 @@ namespace TaskAndTeamManagement.API.Controllers
             };
 
             var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+
+        [HttpGet("getAll")]
+        public async Task<IActionResult> GetAllTeams()
+        {
+            var query = new GetAllTeamsQuery();
+            var result = await _mediator.Send(query);
             return Ok(result);
         }
     }

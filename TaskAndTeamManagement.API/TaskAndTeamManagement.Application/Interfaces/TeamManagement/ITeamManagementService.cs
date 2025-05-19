@@ -6,5 +6,7 @@ namespace TaskAndTeamManagement.Application.Interfaces.TeamManagement
     public interface ITeamManagementService
     {
         Task<ApiResponse<int>> CreateTeamAsync(CreateTeamDto createTeamDto);
+
+        Task<ApiResponse<List<TeamDto>>> GetAllTeamAsync();
     }
 }

@@ -1,4 +1,5 @@
-﻿using TaskAndTeamManagement.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskAndTeamManagement.Domain.Entities;
 using TaskAndTeamManagement.Domain.IRepository.TeamManagement;
 using TaskAndTeamManagement.Infrastructure.DatabaseContext;
 
@@ -19,6 +20,12 @@ namespace TaskAndTeamManagement.Infrastructure.Repository.TeamManagement
             await _context.Teams.AddAsync(team);
             await _context.SaveChangesAsync();
             return team.Id;
+        }
+
+
+        public async Task<List<Team>> GetAllTeamAsync()
+        {
+            return await _context.Teams.ToListAsync();
         }
     }
 }
