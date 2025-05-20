@@ -48,6 +48,7 @@ namespace TaskAndTeamManagement.API
             builder.Services.AddMediatRServices();
             builder.Services.AddUserManagementServices();
             builder.Services.AddTeamManagementServices();
+            builder.Services.AddTaskAssignmentServices();
 
             #region Dependency Injection Register
             builder.Services.AddDatabaseConnection(builder.Configuration);
